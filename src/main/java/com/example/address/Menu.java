@@ -1,7 +1,16 @@
 package com.example.address;
 
+/**
+ * Menu class is responsible for displaying the menu options to the user.
+ * It provides a method to print the menu to the console.
+ */
 public class Menu {
-    public void displayMenu(){
+
+    /**
+     * Displays the menu options to the user.
+     * This method prints the available actions that the user can choose from.
+     */
+    public void displayMenu() {
         System.out.println("-----------------");
         System.out.println("Choose an option from the menu");
         System.out.println("a) Load from file");
@@ -12,3 +21,4 @@ public class Menu {
         System.out.println("f) Exit");
     }
 }
+

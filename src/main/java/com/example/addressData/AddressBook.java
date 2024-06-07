@@ -3,30 +3,37 @@ import java.util.*;
 import java.nio.file.Path;
 import java.io.IOException;
 
+/**
+ * AddressBook is a class that manages a collection of address entries.
+ * It provides methods to add, delete, search, show, and load address entries.
+ */
 public class AddressBook {
 
-    ArrayList<AddressEntry> addressEntryList = new ArrayList<>();
-    Scanner scan = new Scanner(System.in);
-    
+    private ArrayList<AddressEntry> addressEntryList = new ArrayList<>();
+    private Scanner scan = new Scanner(System.in);
 
+    /**
+     * Adds a new address entry to the address book.
+     * Prompts the user for entry details and handles input validation for the zip code.
+     */
     public void add() {
         Scanner scan = new Scanner(System.in);
-    
+
         System.out.println("First name:");
         String firstName = scan.nextLine();
-    
+
         System.out.println("Last Name:");
         String lastName = scan.nextLine();
-    
+
         System.out.println("Street:");
         String street = scan.nextLine();
-    
+
         System.out.println("City:");
         String city = scan.nextLine();
-    
+
         System.out.println("State:");
         String state = scan.nextLine();
-    
+
         int zip;
         while (true) {
             System.out.println("Zip:");
@@ -38,22 +45,26 @@ public class AddressBook {
                 System.out.println("Please enter a valid zip code (numeric value).");
             }
         }
-    
+
         System.out.println("Email:");
         String email = scan.nextLine();
-    
+
         System.out.println("Phone:");
         String phone = scan.nextLine();
-    
+
         AddressEntry newEntry = new AddressEntry(firstName, lastName, street, city, state, zip, email, phone);
         addressEntryList.add(newEntry);
     }
 
+    /**
+     * Deletes an address entry from the address book.
+     * Prompts the user for the last name and confirms the deletion of matching entries.
+     */
     public void delete() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the last name to delete:");
         String lastName = scan.nextLine();
-    
+
         Iterator<AddressEntry> iterator = addressEntryList.iterator();
         while (iterator.hasNext()) {
             AddressEntry entry = iterator.next();
@@ -68,6 +79,10 @@ public class AddressBook {
         }
     }
 
+    /**
+     * Searches for address entries by last name.
+     * Prompts the user for the last name and displays matching entries.
+     */
     public void search() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the last name to search:");
@@ -75,6 +90,12 @@ public class AddressBook {
         searchByLastName(lastName);
     }
 
+    /**
+     * Searches for address entries by last name.
+     * Displays matching entries.
+     * 
+     * @param lastName The last name to search for.
+     */
     public void searchByLastName(String lastName) {
         int counter = 0;
         System.out.println("Search results for last name '" + lastName + "':");
@@ -88,24 +109,31 @@ public class AddressBook {
             System.out.println("No results found for last name '" + lastName + "'.");
         }
     }
-    
-    
-    public void show(){
+
+    /**
+     * Shows all address entries in the address book.
+     * The entries are displayed in sorted order.
+     */
+    public void show() {
         Collections.sort(addressEntryList);
+        int counter = 1;
         for (AddressEntry element : addressEntryList) {
-            int counter = 0;
-            counter++;
             System.out.println(counter + ": " + element);
+            counter++;
         }
     }
 
+    /**
+     * Loads address entries from a file.
+     * The file is expected to be located at a specified path and contain comma-separated values.
+     */
     public void load() {
-        Path path = Path.of("C:\\Users\\alexn\\Downloads\\data.txt");
+        Path path = Path.of("C:\\Users\\alexn\\Downloads\\datos.txt");
         try (Scanner fileScanner = new Scanner(path)) {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(","); // Assuming fields are separated by commas
-    
+
                 if (parts.length == 8) { // Make sure there are 8 parts
                     AddressEntry newEntry = new AddressEntry();
                     newEntry.setFirstName(parts[0].trim());
@@ -121,18 +149,20 @@ public class AddressBook {
                     }
                     newEntry.setEmail(parts[6].trim());
                     newEntry.setPhone(parts[7].trim());
-    
+
                     addressEntryList.add(newEntry); // Add the new entry without removing the existing ones
-                } 
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-   
-    public void exit(){
+
+    /**
+     * Exits the application.
+     * Terminates the program.
+     */
+    public void exit() {
         System.exit(0);
     }
-
-   
 }
